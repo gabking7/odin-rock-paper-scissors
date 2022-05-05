@@ -1,34 +1,91 @@
-function computerPlay() {
-    const rpsArray = [
-        "rock",
-        "paper",
-        "scissors"
-    ];
 
-    const randomRPS = (Math.floor(Math.random() * rpsArray.length)); {
-        console.log(`CPU played: ${rpsArray[randomRPS]}`);
-        return rpsArray[randomRPS];
-    }
-}
+let computerSelection = ["rock", "paper", "scissors"]
+
+let rockBtn = document.getElementById("rock")
+let paperBtn = document.getElementById("paper")
+let scissorsBtn = document.getElementById("scissors")
+let resetBtn = document.getElementById("reset")
+
+let displayDiv = document.getElementById("display")
+let scoreDiv = document.getElementById("score")
+
+let userChoice = ""
+let cpuChoice = ""
+
+let userScore = 0
+let cpuScore = 0
 
 
+// function computerPlay() {
+//     cpuChoice = computerSelection[randNum]
+// }
 
-function roundOne(playerSelection, computerSelection) {
-    let userChoice = prompt("Choose rock, paper or scissors!").toLowerCase();
-    console.log(`User played: ${userChoice}`);
 
-    if (userChoice === computerSelection) {
-        return "It's a tie.";
-    } else if (userChoice == "rock" && computerSelection == "scissors") {
-        return "You win!";
-    } else if (userChoice == "paper" && computerSelection == "rock") {
-        return "You win!";
-    } else if (userChoice == "scissors" && computerSelection == "paper") {
-        return "You win!";
+function playRound(playerSelection, cpuSelection) {
+    scoreDiv.textContent = `User Score: ${userScore} | CPU Score: ${cpuScore}`
+    if (playerSelection === "rock" && cpuSelection === "paper") {
+        displayDiv.textContent = `You lose, ${cpuSelection} beats ${playerSelection}.\n `
+        cpuScore += 1
+        scoreDiv.textContent = `User Score: ${userScore} | CPU Score: ${cpuScore}`
+    } else if (playerSelection === "paper" && cpuSelection === "scissors") {
+        displayDiv.textContent = `You lose, ${cpuSelection} beats ${playerSelection}.\n`
+        cpuScore += 1
+        scoreDiv.textContent = `User Score: ${userScore} | CPU Score: ${cpuScore}`
+    } else if (playerSelection === "scissors" && cpuSelection === "rock") {
+        displayDiv.textContent = `You lose, ${cpuSelection} beats ${playerSelection}.\n`
+        cpuScore += 1
+        scoreDiv.textContent = `User Score: ${userScore} | CPU Score: ${cpuScore}`
+    } else if (playerSelection === cpuSelection) {
+        displayDiv.textContent = `You both chose ${playerSelection}, it's a tie!\n`
+        scoreDiv.textContent = `User Score: ${userScore} | CPU Score: ${cpuScore}`
     } else {
-        return "You lose. :(";
+        displayDiv.textContent = `You win, ${playerSelection} beats ${cpuSelection}!\n`
+        userScore += 1
+        scoreDiv.textContent = `User Score: ${userScore} | CPU Score: ${cpuScore}`
     }
 }
-const playerSelection = "rock";
-const computerSelection = computerPlay();
-console.log(roundOne(playerSelection, computerSelection));
+
+resetBtn.addEventListener("click", function() {
+    userScore = 0
+    cpuScore = 0
+    displayDiv.textContent = ""
+    scoreDiv.textContent = `User Score: ${userScore} | CPU Score: ${cpuScore}`
+})     
+
+
+function announceWinner() {
+    if (cpuScore === 5) {
+        displayDiv.textContent = "The cpu has won this game. Please reset the game."
+    } else if (userScore === 5) {
+        displayDiv.textContent = "You won this game! Reset game to test your luck again!"
+    }
+}
+
+rockBtn.addEventListener("click", function() {
+    userChoice = "rock"
+    let randNum = Math.floor(Math.random() * computerSelection.length) 
+    cpuChoice = computerSelection[randNum]
+    playRound(userChoice, cpuChoice)
+    announceWinner()
+})
+
+paperBtn.addEventListener("click", function() {
+    userChoice = "paper"
+    let randNum = Math.floor(Math.random() * computerSelection.length) 
+    cpuChoice = computerSelection[randNum]
+    playRound(userChoice, cpuChoice)
+    announceWinner()
+})
+
+scissorsBtn.addEventListener("click", function() {
+    userChoice = "scissors"
+    let randNum = Math.floor(Math.random() * computerSelection.length) 
+    cpuChoice = computerSelection[randNum]
+    playRound(userChoice, cpuChoice)
+    announceWinner()
+})
+
+// let userChoice = prompt("Rock, paper, or scissors?")
+// let cpuSelection = computerPlay()
+
+//console.log(playRound(userPrompt.toLowerCase(), cpuSelection))
